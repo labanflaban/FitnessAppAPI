@@ -1,0 +1,115 @@
+﻿<form id="exerciseForm">
+    <label for="dayName">Select a Day:</label>
+    <select id="dayName" name="dayName">
+       @foreach (var day in Model.Days)
+        {
+            <option value="@day.Name">@day.Name</option>
+        }
+    </select>
+
+    <label for="exerciseName">Select an Exercise:</label>
+    <select id="exerciseName" name="exerciseName">
+ 
+        @foreach (var exercises in Model.Exercise)
+        {
+            <option value="@exercises.Name">@exercises.Name</option>
+        }
+
+    </select>
+
+    <button type="button" onclick="addExercise()">Add Exercise</button>
+</form>
+
+<div id="selectedExercises"></div>
+
+<script>
+    let selectedExercises = {};
+
+    function addExercise() {
+        let selectedDay = document.getElementById('dayName').value;
+        let selectedExercise = document.getElementById('exerciseName').value;
+
+        if (!selectedExercises[selectedDay]) {
+            selectedExercises[selectedDay] = []; 
+        }
+
+        selectedExercises[selectedDay].push(selectedExercise); 
+
+        displaySelectedExercises();
+    }
+
+    // Function to display selected exercises
+    function displaySelectedExercises() {
+        let selectedExercisesElement = document.getElementById('selectedExercises');
+        selectedExercisesElement.innerHTML = '';
+
+        Object.keys(selectedExercises).forEach(day => {
+            let dayExercises = selectedExercises[day];
+            let dayHeader = document.createElement('h3');
+
+            dayHeader.textContent = `${day} Exercises:`;
+            selectedExercisesElement.appendChild(dayHeader);
+
+            if (dayExercises.length > 0) {
+                let dayExerciseList = document.createElement('ul');
+                dayExercises.forEach(exercise => {
+                    let exerciseItem = document.createElement('li');
+                    exerciseItem.textContent = exercise;
+                    dayExerciseList.appendChild(exerciseItem);
+                });
+                selectedExercisesElement.appendChild(dayExerciseList);
+            } else {
+                let noExercises = document.createElement('p');
+                noExercises.textContent = 'No exercises for this day yet.';
+                selectedExercisesElement.appendChild(noExercises);
+            }
+        });
+    }
+</script>
+@* @model WorkoutViewModel
+
+<h1>Weekly Exercise Planner</h1>
+
+<form asp-controller="Workout" asp-action="AddExercise" method="post">
+    <label for="dayName">Select a Day:</label>
+    <select id="dayName" name="dayName">
+        @foreach (var day in Model.Days)
+        {
+            <option value="@day.Name">@day.Name</option>
+        }
+    </select>
+
+    <label for="exerciseName">Exercise Name:</label>
+    <select id="exerciseName" name="exerciseName">
+        <option value="">Select an exercise</option>
+        @foreach (var exercises in Model.Exercise)
+        {
+            <option value="@exercises.Name">@exercises.Name</option>
+        }
+    </select>
+
+    <button type="submit">Add Exercise</button>
+</form>
+
+<hr />
+
+@foreach (var day in Model.Days)
+{
+    <h2>@day.Name</h2>
+    @if (day.Exercises != null && day.Exercises.Any())
+    {
+        
+        <ul>
+            @foreach (var exercise in day.Exercises)
+            {
+                <li>@exercise.Name</li>
+            }
+        </ul>
+    }
+    else
+    {
+        <p>No exercises for this day yet.</p>
+    }
+    <hr />
+}
+ *@

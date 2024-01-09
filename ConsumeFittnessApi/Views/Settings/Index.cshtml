@@ -1,0 +1,45 @@
+﻿@model SettingsViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+
+<table class="table">
+    <thead>
+        <th>
+                @Html.DisplayNameFor(model => model.Groups)
+        </th>
+        <th>
+                @Html.DisplayNameFor(model => model.Exercises)
+        </th>
+    </thead>
+    <tbody>
+        <h2>Muscle Groups</h2>
+        <ul>
+            @foreach (var group in Model.Groups)
+            {
+                <li>@group.Name</li>
+                
+            }
+            <form id="addMuscleGroupForm" asp-action="AddMuscleGroup">
+                <input type="text" name="name" placeholder="Enter name">
+                <button type="submit">Add Muscle Group</button>
+            </form>
+        </ul>
+
+        <h2>Exercises</h2>
+        <ul>
+            @foreach (var exercise in Model.Exercises)
+            {
+                <li>@exercise.Name</li>
+            }
+        </ul>
+        <form id="addExerciseForm" asp-action="AddExercise">
+            <input type="text" name="name" placeholder="Enter name">
+            <button type="submit">Add Exercise</button>
+        </form>
+    </tbody>
+</table>
